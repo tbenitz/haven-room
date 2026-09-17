@@ -189,6 +189,6 @@ input,select,textarea{background:#0b1020;border:1px solid var(--line);border-rad
 </div>
 <div id="toast" class="toast hidden" hidden></div>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
-<script src="app.js"></script>
+<script src="app.js" onerror="document.getElementById('toast').hidden=false;document.getElementById('toast').classList.remove('hidden');document.getElementById('toast').textContent='app.js is still uploading. Refresh in a minute.';"></script>
 </body>
 </html>
