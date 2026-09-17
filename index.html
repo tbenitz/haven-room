@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#070A12"/>
+<title>Haven Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070a12;--card:#121828;--line:rgba(148,163,184,.16);--text:#eef2ff;--muted:#93a0b8;--teal:#5eead4;--amber:#fbbf24;--rose:#fb7185;--ok:#34d399;--dock:84px;--safe:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Outfit,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}.hidden,[hidden]{display:none!important}
+.mono{letter-spacing:.06em}h1,h2{font-family:Fraunces,Georgia,serif}
+.lobby{max-width:740px;margin:0 auto;padding:48px 20px 72px}
+.brand{display:flex;gap:14px;align-items:center;margin-bottom:18px}
+.mark{width:48px;height:48px;border-radius:14px;border:1px solid var(--line);background:#0c1018;display:grid;place-items:center;position:relative}
+.mark i{width:20px;height:20px;border:2px solid var(--teal);border-radius:50%;display:block}
+.mark b{position:absolute;width:8px;height:8px;background:var(--amber);border-radius:50%}
+.eyebrow{margin:0;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.lede{color:var(--muted);line-height:1.55}
+.card{margin-top:24px;background:rgba(18,24,40,.82);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.tabs{display:grid;grid-template-columns:1fr 1fr}
+.tab{background:0;border:0;padding:14px;color:var(--muted);font-weight:700}
+.tab.on,.tab.is-active{color:var(--text);box-shadow:inset 0 -2px 0 var(--teal);background:rgba(94,234,212,.06)}
+.panel{display:none;padding:20px;gap:12px}.panel.on,.panel.is-active{display:grid}
+label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+input,select,textarea{background:#0b1020;border:1px solid var(--line);border-radius:12px;padding:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.check{display:flex;align-items:center;gap:8px;color:var(--text)}
+.btn{border:1px solid var(--line);background:#161d2e;border-radius:14px;padding:12px 16px;font-weight:700}
+.btn.pri{background:linear-gradient(#5eead4,#2dd4bf);color:#06201b;border:0}
+.btn.speak{background:linear-gradient(#fbbf24,#f59e0b);color:#1c1403;border:0;flex:1}
+.btn.ghost{background:0}.btn.tiny{padding:8px 12px;font-size:13px}.btn.danger{color:var(--rose)}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:8px;list-style:none;padding:0;margin:18px 0 0}
+.features li{border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--muted);font-size:13px}
+.features strong{display:block;color:var(--text)}
+.room{min-height:100dvh;display:grid;grid-template-rows:auto 1fr;padding-bottom:calc(var(--dock)+var(--safe))}
+.top{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;align-items:center}
+.top h1{margin:0;font-size:20px}.sub{margin:2px 0 0;color:var(--muted);font-size:13px}
+.link{background:0;border:0;color:var(--teal);padding:0}
+.timer{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}.timer.warn .dot{background:var(--amber)}.timer.hot .dot{background:var(--rose)}
+.pill{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(94,234,212,.3);border-radius:999px;padding:5px 9px}
+.stage{display:grid;grid-template-columns:1fr minmax(260px,340px);gap:10px;padding:0 12px 12px}
+.grid{display:grid;gap:8px}.grid.n1{grid-template-columns:1fr}.grid.n2,.grid.n3,.grid.n4{grid-template-columns:1fr 1fr}.grid.n5,.grid.n6{grid-template-columns:1fr 1fr 1fr}.grid.n7,.grid.n8,.grid.n9,.grid.n10{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.tile{position:relative;background:#0b1020;border:1px solid var(--line);border-radius:16px;overflow:hidden;aspect-ratio:16/10;min-height:140px}
+.tile video{width:100%;height:100%;object-fit:cover;display:block}.tile.off video,.tile.cam-off video{opacity:0}
+.fb,.tile-fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:Fraunces,serif;font-size:26px;color:var(--teal);background:radial-gradient(circle at 30% 20%,#1e293b,#0b1020 62%)}
+.meta{position:absolute;left:8px;right:8px;bottom:8px;display:flex;justify-content:space-between;gap:6px}
+.name,.tile-name,.flag{background:rgba(7,10,18,.72);border-radius:999px;padding:4px 8px;font-size:12px;font-weight:700}.flag{font-size:10px;text-transform:uppercase;color:var(--muted)}.flag.live{color:var(--rose)}
+.side{background:rgba(18,24,40,.9);border:1px solid var(--line);border-radius:18px;overflow:auto}
+.stabs{display:grid;grid-template-columns:1fr 1fr 1fr}.stab,.side-tab{background:0;border:0;padding:11px;color:var(--muted);font-weight:700}.stab.on,.side-tab.is-active{color:#fff;box-shadow:inset 0 -2px 0 var(--amber)}
+.spanel,.side-panel{display:none;padding:14px}.spanel.on,.side-panel.is-active{display:block}
+#als-text{width:100%;min-height:84px} .als-act{display:flex;gap:8px;margin:10px 0}
+.phrases{display:flex;flex-wrap:wrap;gap:8px}.phrase{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.25);color:#fde68a;border-radius:999px;padding:8px 12px;font-size:13px;text-align:left}
+.phrase.q,.phrase.quick{background:rgba(94,234,212,.14);border-color:rgba(94,234,212,.25);color:#a7f3d0}
+.people{list-style:none;padding:0;margin:0;display:grid;gap:8px}.people li{display:flex;justify-content:space-between;background:#0b1020;border:1px solid var(--line);border-radius:12px;padding:10px}
+.hostc,.host-controls{display:grid;gap:8px}.hostc .btn,.host-controls .btn{width:100%}.hostc.off,.host-controls.is-disabled{opacity:.45;pointer-events:none}
+.caption{position:fixed;left:50%;bottom:calc(var(--dock)+var(--safe)+10px);transform:translateX(-50%);max-width:min(720px,calc(100vw - 24px));background:rgba(7,10,18,.9);border:1px solid var(--line);border-radius:14px;padding:10px 14px;z-index:8}
+.dock{position:fixed;left:50%;bottom:calc(8px + var(--safe));transform:translateX(-50%);display:flex;gap:4px;background:rgba(12,16,28,.92);border:1px solid var(--line);border-radius:22px;padding:8px;z-index:9}
+.dock button{min-width:58px;background:0;border:0;border-radius:14px;padding:8px 6px;display:grid;place-items:center;gap:2px;color:#fff}
+.dock button span{font-size:11px;color:var(--muted);font-weight:700}
+.dock button[aria-pressed="false"],.dock .danger,.dock .rec{color:var(--rose)}
+.modal{position:fixed;inset:0;background:rgba(4,6,12,.62);display:grid;place-items:center;padding:16px;z-index:20}
+.mcard{width:min(460px,100%);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.choice{display:block;width:100%;text-align:left;background:#0b1020;border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 8px}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;z-index:30}
+@media(max-width:920px){.stage{grid-template-columns:1fr}.side{position:fixed;left:0;right:0;bottom:calc(var(--dock)+var(--safe) - 8px);max-height:58vh;border-radius:18px 18px 0 0;transform:translateY(110%);z-index:8;transition:.2s}.side.open{transform:none}.row2{grid-template-columns:1fr}.dock{width:calc(100% - 12px);justify-content:space-around}}
+</style>
+</head>
+<body>
+<main id="lobby" class="lobby">
+  <div class="brand"><div class="mark"><i></i><b></b></div><div><p class="eyebrow">Peer-to-peer · No account</p><h1>Haven Room</h1></div></div>
+  <p class="lede">Video for up to 10 people, timed rooms, host handoff, local recording, and type-to-speak for ALS.</p>
+  <section class="card">
+    <div class="tabs">
+      <button class="tab is-active" data-tab="create">Host a room</button>
+      <button class="tab" data-tab="join">Join a room</button>
+    </div>
+    <form id="create-form" class="panel is-active">
+      <label>Your name<input id="create-name" required maxlength="32" placeholder="Alex Rivera"></label>
+      <label>Room title <span style="opacity:.6">optional</span><input id="create-title" maxlength="48" placeholder="Thursday check-in"></label>
+      <div class="row2">
+        <label>Room code<input id="create-code" maxlength="12" class="mono" placeholder="auto if blank"></label>
+        <label>Length
+          <select id="create-duration">
+            <option value="15">15 minutes</option><option value="30" selected>30 minutes</option>
+            <option value="45">45 minutes</option><option value="60">60 minutes</option>
+            <option value="90">90 minutes</option><option value="120">120 minutes</option>
+          </select>
+        </label>
+      </div>
+      <label class="check"><input type="checkbox" id="create-als"> Open ALS speak panel</label>
+      <button class="btn pri" type="submit">Create room</button>
+    </form>
+    <form id="join-form" class="panel">
+      <label>Your name<input id="join-name" required maxlength="32" placeholder="Sam Chen"></label>
+      <label>Room code<input id="join-code" required maxlength="12" class="mono" placeholder="cedar412"></label>
+      <label class="check"><input type="checkbox" id="join-als"> Open ALS speak panel</label>
+      <button class="btn pri" type="submit">Join room</button>
+    </form>
+  </section>
+  <ul class="features">
+    <li><strong>10 people</strong>mesh video</li>
+    <li><strong>Host handoff</strong>mid-call</li>
+    <li><strong>Local recording</strong>screen or audio</li>
+    <li><strong>Type-to-speak</strong>repeat last phrase</li>
+  </ul>
+</main>
+<div id="room" class="room hidden" hidden>
+  <header class="top">
+    <div>
+      <h1 id="room-title">Haven</h1>
+      <p class="sub"><span id="room-code-label" class="mono"></span> · <button class="link" id="copy-invite" type="button">Copy invite</button> · <span id="peer-count">1 / 10</span></p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="timer" id="timer"><span class="dot"></span><span id="timer-text">30:00</span></div>
+      <span id="host-pill" class="pill hidden">Host</span>
+    </div>
+  </header>
+  <div class="stage">
+    <section id="grid" class="grid"></section>
+    <aside id="side" class="side">
+      <div class="stabs">
+        <button class="stab side-tab is-active" data-side="als" type="button">Speak</button>
+        <button class="stab side-tab" data-side="people" type="button">People</button>
+        <button class="stab side-tab" data-side="host" type="button">Host</button>
+      </div>
+      <div id="panel-als" class="spanel side-panel is-active">
+        <h2>Type to speak</h2>
+        <p class="sub">Spoken on every device and shown as a caption.</p>
+        <textarea id="als-text" maxlength="500" placeholder="Enter speaks · Shift+Enter new line"></textarea>
+        <div class="als-act">
+          <button class="btn speak" id="als-speak" type="button">Speak to room</button>
+          <button class="btn ghost" id="als-repeat" type="button">Repeat last</button>
+        </div>
+        <label>Voice speed <input id="als-rate" type="range" min="0.7" max="1.3" step="0.05" value="1"></label>
+        <button class="btn tiny" id="als-preview" type="button">Preview only me</button>
+        <p class="sub" style="margin-top:14px">RECENT</p>
+        <div id="recent-phrases" class="phrases">Nothing spoken yet.</div>
+        <p class="sub">QUICK PHRASES</p>
+        <div id="quick-phrases" class="phrases"></div>
+        <form id="save-phrase-form" class="als-act">
+          <input id="new-phrase" maxlength="120" placeholder="Save a phrase…">
+          <button class="btn tiny" type="submit">Save</button>
+        </form>
+      </div>
+      <div id="panel-people" class="spanel side-panel"><h2>In the room</h2><ul id="people-list" class="people people-list"></ul></div>
+      <div id="panel-host" class="spanel side-panel">
+        <h2>Host controls</h2>
+        <p id="host-locked-note" class="sub">Only the host can change these.</p>
+        <div id="host-controls" class="hostc host-controls">
+          <label>Meeting length
+            <select id="host-duration">
+              <option value="15">15</option><option value="30">30</option><option value="45">45</option>
+              <option value="60">60</option><option value="90">90</option><option value="120">120</option>
+            </select>
+          </label>
+          <button class="btn ghost" id="host-apply-time" type="button">Apply remaining time</button>
+          <label>Pass host to <select id="host-successor"></select></label>
+          <button class="btn ghost" id="host-transfer" type="button">Give host role</button>
+          <button class="btn ghost" id="host-lock" type="button">Lock room</button>
+          <button class="btn danger" id="host-end" type="button">End meeting for all</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <div id="caption" class="caption hidden" hidden></div>
+  <footer class="dock">
+    <button id="btn-mic" aria-pressed="true" type="button">Mic<span>Mic</span></button>
+    <button id="btn-cam" aria-pressed="true" type="button">Cam<span>Camera</span></button>
+    <button id="btn-share" aria-pressed="false" type="button">Share<span>Share</span></button>
+    <button id="btn-record" type="button">Rec<span>Record</span></button>
+    <button id="btn-als-toggle" type="button">Speak<span>Speak</span></button>
+    <button id="btn-leave" class="danger" type="button">Leave<span>Leave</span></button>
+  </footer>
+</div>
+<div id="record-modal" class="modal hidden" hidden>
+  <div class="mcard">
+    <h2>Record on this device</h2>
+    <p class="sub">Nothing is uploaded.</p>
+    <button class="choice" data-rec="meeting" type="button"><strong>Meeting composite</strong><br>Grid + mixed audio</button>
+    <button class="choice" data-rec="screen" type="button"><strong>Screen or window</strong><br>Browser picker</button>
+    <button class="choice" data-rec="audio" type="button"><strong>Audio only</strong></button>
+    <button class="btn ghost" id="rec-cancel" type="button">Cancel</button>
+  </div>
+</div>
+<div id="toast" class="toast hidden" hidden></div>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
